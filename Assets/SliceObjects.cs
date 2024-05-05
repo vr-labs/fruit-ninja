@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
+using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class SliceObjects : MonoBehaviour
 {
@@ -9,6 +12,9 @@ public class SliceObjects : MonoBehaviour
     public Transform endSlicePoint;
     public LayerMask sliceableLayer;
     public VelocityEstimator velocityEstimator;
+    
+    public UnityEvent OnTimerStart;
+    public UnityEvent OnTimerEnd;
 
     public Material crossSectionMaterial;
     public float cutForce = 2000f;
@@ -47,7 +53,30 @@ public class SliceObjects : MonoBehaviour
             SetupSliceComponent(lowerHull);
             
             Destroy(target);
+
+            StartCoroutine(StartTimer(() =>
+            {
+                Destroy(upperHull);
+                Destroy(lowerHull);
+            }));
         }
+    }
+    
+    private IEnumerator StartTimer(Action callback)
+    {
+        OnTimerStart.Invoke();
+
+        float elapsedTime = 0f;
+        float targetTime = 10f;
+
+        while (elapsedTime < targetTime)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        OnTimerEnd.Invoke();
+        callback();
     }
 
     public void SetupSliceComponent(GameObject slicedObject)
