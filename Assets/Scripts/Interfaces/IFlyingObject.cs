@@ -6,4 +6,5 @@ public interface IFlyingObject
     GameObject ObjectPrefab { get; set; }
     void Launch();
     void OnHit();
+    Vector3 GetSize();
 }

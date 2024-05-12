@@ -263,7 +263,7 @@ MonoBehaviour:
   applePrefab: {fileID: 1829371231341652, guid: 426b44a7575f71e479fab4f4e8431989, type: 3}
   avocadoPrefab: {fileID: 1369001872449898, guid: 2f2e54b9f3898eb46a0b47f9a4d4c52b, type: 3}
   bananaPrefab: {fileID: 1407451490957870, guid: 3ce32ffa6ccf60e4ab65d9e396f43433, type: 3}
-  burgerPrefab: {fileID: 100000, guid: 54b107e50acd7e24b96d7de887c68833, type: 3}
+  burgerPrefab: {fileID: 2327000238939881028, guid: 625f7aa2f270af0408ad41620c666d11, type: 3}
   cherriesPrefab: {fileID: 1802840387486672, guid: 8f38e57a49b1c844081ad6bb3c553f13, type: 3}
   lemonPrefab: {fileID: 1638444836145330, guid: 031f4f4b1f7d8b7489da0919e18ceac3, type: 3}
   peachPrefab: {fileID: 1541859410316496, guid: 4fe5a7bcbee1651418ea031a87ff53e4, type: 3}

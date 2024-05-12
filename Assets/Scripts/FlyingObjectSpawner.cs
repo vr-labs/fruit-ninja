@@ -28,6 +28,7 @@ public class FlyingObjectSpawner : MonoBehaviour
                 MeshCollider meshCollider = flyingObject.ObjectPrefab.AddComponent<MeshCollider>();
                 meshCollider.convex = true;
                 flyingObject.ObjectPrefab.layer = LayerMask.NameToLayer("Sliceable");
+                flyingObject.ObjectPrefab.transform.localScale = flyingObject.GetSize();
 
                 return flyingObject;
             }))
@@ -59,14 +60,15 @@ public class FlyingObjectSpawner : MonoBehaviour
         Vector3 spawnAreaPosition = spawnArea.transform.position;
         Vector3 spawnAreaScale = spawnArea.transform.localScale;
 
-        float minX = spawnAreaPosition.x - spawnAreaScale.x / 2;
-        float maxX = spawnAreaPosition.x + spawnAreaScale.x / 2;
-        float minZ = spawnAreaPosition.z - spawnAreaScale.z / 2;
-        float maxZ = spawnAreaPosition.z + spawnAreaScale.z / 2;
+        float minX = spawnAreaPosition.x - spawnAreaScale.x * 3;
+        float maxX = spawnAreaPosition.x + spawnAreaScale.x * 3;
+        float minZ = spawnAreaPosition.z - spawnAreaScale.z * 3;
+        float maxZ = spawnAreaPosition.z + spawnAreaScale.z * 3;
 
         float randomX = Random.Range(minX, maxX);
         float randomZ = Random.Range(minZ, maxZ);
-
-        return new Vector3(randomX, spawnAreaPosition.y, randomZ);
+        
+        // TODO убрать + 1f после полёта
+        return new Vector3(randomX, spawnAreaPosition.y + 1f, randomZ);
     }
 }
