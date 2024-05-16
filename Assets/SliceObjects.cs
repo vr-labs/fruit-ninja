@@ -52,6 +52,12 @@ public class SliceObjects : MonoBehaviour
             GameObject lowerHull = hull.CreateLowerHull(target, this.crossSectionMaterial);
             SetupSliceComponent(lowerHull);
             
+            IFlyingObject flyingObject = target.GetComponent<FlyingObjectBase>();
+            if (flyingObject != null)
+            {
+                flyingObject.OnHit();
+            }
+            
             Destroy(target);
 
             StartCoroutine(StartTimer(() =>

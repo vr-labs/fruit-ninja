@@ -8,4 +8,9 @@ public class Burger : FlyingObjectBase
     {
         return Vector3.one;
     }
+
+    public override void OnHit()
+    {
+        GameManager.Instance.AddScore(-3);
+    }
 }

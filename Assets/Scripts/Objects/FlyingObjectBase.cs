@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public abstract class FlyingObjectBase: MonoBehaviour, IFlyingObject
@@ -18,9 +19,10 @@ public abstract class FlyingObjectBase: MonoBehaviour, IFlyingObject
         Debug.Log("launched");
     }
 
-    public void OnHit()
+    public virtual void OnHit()
     {
-        throw new System.NotImplementedException();
+        GameManager.Instance.AddScore(1);
+        Debug.Log(GameManager.Instance.Score);
     }
 
     public abstract Vector3 GetSize();

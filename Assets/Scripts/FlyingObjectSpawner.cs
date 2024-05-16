@@ -13,20 +13,22 @@ public class FlyingObjectSpawner : MonoBehaviour
     [SerializeField]
     public GameObject spawnArea;
     
-    [SerializeField]
-    public float spawnInterval = 10.0f;
     private float nextSpawnTime;
 
     void Start()
     {
-        flyingObjectPrefabs = Enum.GetValues(typeof(FlyingObjectType)).Cast<FlyingObjectType>()
+        flyingObjectPrefabs = Enum.GetValues(typeof(FlyingObjectType))
+            .Cast<FlyingObjectType>()
             .Select((type =>
             {
-                IFlyingObject flyingObject = factory.GetFlyingObject(gameObject, type);
-                flyingObject.ObjectPrefab = prefabsStorage.GetPrefabByType(type);
+                var objectPrefab = prefabsStorage.GetPrefabByType(type);
+                IFlyingObject flyingObject = factory.GetFlyingObject(objectPrefab, type);
+                flyingObject.ObjectPrefab = objectPrefab;
                 
                 MeshCollider meshCollider = flyingObject.ObjectPrefab.AddComponent<MeshCollider>();
                 meshCollider.convex = true;
+                
+                flyingObject.ObjectPrefab.AddComponent<Flying>();
                 flyingObject.ObjectPrefab.layer = LayerMask.NameToLayer("Sliceable");
                 flyingObject.ObjectPrefab.transform.localScale = flyingObject.GetSize();
 
@@ -34,15 +36,15 @@ public class FlyingObjectSpawner : MonoBehaviour
             }))
             .ToList();
         
-        nextSpawnTime = Time.time + spawnInterval;
+        nextSpawnTime = Time.time + GameManager.Instance.SpawnInterval;
     }
 
     void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (GameManager.Instance.GameState == GameState.Running && Time.time >= nextSpawnTime)
         {
             SpawnFlyingObject();
-            nextSpawnTime = Time.time + spawnInterval;
+            nextSpawnTime = Time.time + GameManager.Instance.SpawnInterval;
         }
     }
 
@@ -60,15 +62,15 @@ public class FlyingObjectSpawner : MonoBehaviour
         Vector3 spawnAreaPosition = spawnArea.transform.position;
         Vector3 spawnAreaScale = spawnArea.transform.localScale;
 
-        float minX = spawnAreaPosition.x - spawnAreaScale.x * 3;
-        float maxX = spawnAreaPosition.x + spawnAreaScale.x * 3;
-        float minZ = spawnAreaPosition.z - spawnAreaScale.z * 3;
-        float maxZ = spawnAreaPosition.z + spawnAreaScale.z * 3;
+        float minX = spawnAreaPosition.x - spawnAreaScale.x * 10;
+        float maxX = spawnAreaPosition.x + spawnAreaScale.x * 10;
+        float minZ = spawnAreaPosition.z - spawnAreaScale.z * 10;
+        float maxZ = spawnAreaPosition.z + spawnAreaScale.z * 10;
 
         float randomX = Random.Range(minX, maxX);
         float randomZ = Random.Range(minZ, maxZ);
         
         // TODO убрать + 1f после полёта
-        return new Vector3(randomX, spawnAreaPosition.y + 1f, randomZ);
+        return new Vector3(randomX, spawnAreaPosition.y + 0.7f, randomZ);
     }
 }
