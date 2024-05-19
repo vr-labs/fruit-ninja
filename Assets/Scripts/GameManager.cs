@@ -30,7 +30,7 @@ public class GameManager: MonoBehaviour
 
     public void ResetGame()
     {
-        SpawnInterval = 5f;
+        SpawnInterval = 2f;
         Score = 0;
     }
 
