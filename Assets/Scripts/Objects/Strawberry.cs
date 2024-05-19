@@ -6,6 +6,6 @@ public class Strawberry : FlyingObjectBase
     
     public override Vector3 GetSize()
     {
-        return new Vector3(30f, 30f, 30f);
+        return new Vector3(12f, 12f, 12f);
     }
 }

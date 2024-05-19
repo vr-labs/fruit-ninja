@@ -13,9 +13,6 @@ public class SliceObjects : MonoBehaviour
     public LayerMask sliceableLayer;
     public VelocityEstimator velocityEstimator;
     
-    public UnityEvent OnTimerStart;
-    public UnityEvent OnTimerEnd;
-
     public Material crossSectionMaterial;
     public float cutForce = 2000f;
     
@@ -58,33 +55,12 @@ public class SliceObjects : MonoBehaviour
                 flyingObject.OnHit();
             }
             
-            Destroy(target);
-
-            StartCoroutine(StartTimer(() =>
-            {
-                Destroy(upperHull);
-                Destroy(lowerHull);
-            }));
+            Destroy(target, 5f);
+            Destroy(upperHull, 5f);
+            Destroy(lowerHull, 5f);
         }
     }
     
-    private IEnumerator StartTimer(Action callback)
-    {
-        OnTimerStart.Invoke();
-
-        float elapsedTime = 0f;
-        float targetTime = 10f;
-
-        while (elapsedTime < targetTime)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        OnTimerEnd.Invoke();
-        callback();
-    }
-
     public void SetupSliceComponent(GameObject slicedObject)
     {
         Rigidbody rigidBody = slicedObject.AddComponent<Rigidbody>();

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class GameManager: MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
     public GameState GameState { get; private set; } = GameState.Running;
 
     public TextMeshProUGUI ScoreText;
     public int Score { get; private set; }
-    public float SpawnInterval { get; set; } = 5f;
+    public float MinSpawnInterval = 0.25f;
+    public float MaxSpawnInterval = 1.25f;
 
     public void Start()
     {
@@ -30,7 +30,8 @@ public class GameManager: MonoBehaviour
 
     public void ResetGame()
     {
-        SpawnInterval = 2f;
+        MinSpawnInterval = 0.25f;
+        MaxSpawnInterval = 1.25f;
         Score = 0;
     }
 
