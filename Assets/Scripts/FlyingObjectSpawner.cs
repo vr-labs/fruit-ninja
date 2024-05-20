@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,7 +35,14 @@ public class FlyingObjectSpawner : MonoBehaviour
 
     void Start()
     {
-        flyingObjectPrefabs = Enum.GetValues(typeof(FlyingObjectType))
+        List<Type> types = new List<Type>();
+        types.AddRange(Enum.GetValues(typeof(FlyingObjectType)));
+        // более тупой, но 100% действенный вариант
+        // types.Add(FlyingObjectType.Burger.GetType());
+        // types.Add(FlyingObjectType.Burger.GetType());
+        // types.Add(FlyingObjectType.Burger.GetType());
+        // types.Add(FlyingObjectType.Burger.GetType());
+        flyingObjectPrefabs = types
             .Cast<FlyingObjectType>()
             .Select((type =>
             {
@@ -53,7 +62,18 @@ public class FlyingObjectSpawner : MonoBehaviour
         while (enabled)
         {
             Vector3 spawnPosition = GetRandomSpawnPosition();
-            IFlyingObject randomObject = flyingObjectPrefabs[Random.Range(0, flyingObjectPrefabs.Length)];
+            IFlyingObject randomObject = null;
+            // более элегантный, но не 100% вариант
+            foreach (IFlyingObject prefab in flyingObjectPrefabs)
+            {
+                if (Random.Range(0f, 1f) <= prefab.AppearingChance)
+                {
+                    randomObject = flyingObjectPrefabs[i];
+                    break;
+                }
+            }
+
+            randomObject ??= flyingObjectPrefabs[0];
             
             Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(minAngle, maxAngle));
             GameObject fruit = Instantiate(randomObject.ObjectPrefab, spawnPosition, rotation);
