@@ -35,14 +35,7 @@ public class FlyingObjectSpawner : MonoBehaviour
 
     void Start()
     {
-        List<Type> types = new List<Type>();
-        types.AddRange(Enum.GetValues(typeof(FlyingObjectType)));
-        // более тупой, но 100% действенный вариант
-        // types.Add(FlyingObjectType.Burger.GetType());
-        // types.Add(FlyingObjectType.Burger.GetType());
-        // types.Add(FlyingObjectType.Burger.GetType());
-        // types.Add(FlyingObjectType.Burger.GetType());
-        flyingObjectPrefabs = types
+        flyingObjectPrefabs = Enum.GetValues(typeof(FlyingObjectType))
             .Cast<FlyingObjectType>()
             .Select((type =>
             {
@@ -63,12 +56,11 @@ public class FlyingObjectSpawner : MonoBehaviour
         {
             Vector3 spawnPosition = GetRandomSpawnPosition();
             IFlyingObject randomObject = null;
-            // более элегантный, но не 100% вариант
             foreach (IFlyingObject prefab in flyingObjectPrefabs)
             {
                 if (Random.Range(0f, 1f) <= prefab.AppearingChance)
                 {
-                    randomObject = flyingObjectPrefabs[i];
+                    randomObject = prefab;
                     break;
                 }
             }
