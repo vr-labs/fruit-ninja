@@ -76,7 +76,7 @@ public class FlyingObjectSpawner : MonoBehaviour
             fruit.layer = LayerMask.NameToLayer("Sliceable");
             fruit.transform.localScale = randomObject.GetSize();
             
-            Destroy(fruit, maxLifetime);    
+            Destroy(fruit, maxLifetime);
             
             float force = Random.Range(minForce, maxForce);
             fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * force, ForceMode.Impulse);
