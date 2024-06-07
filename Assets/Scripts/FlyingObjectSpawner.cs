@@ -18,8 +18,8 @@ public class FlyingObjectSpawner : MonoBehaviour
     public float minAngle = -15f;
     public float maxAngle = 15f;
 
-    public float minForce = 0.025f;
-    public float maxForce = 0.1f;
+    public float minForce = 0.01f;
+    public float maxForce = 0.02f;
 
     public float maxLifetime = 1f;
     
