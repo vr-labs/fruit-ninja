@@ -13,19 +13,47 @@ public class GameManager: MonoBehaviour
     public float MinSpawnInterval = 0.25f;
     public float MaxSpawnInterval = 1.25f;
 
+    public readonly Vector3 startStopButtonSpawn = new()
+    {
+        x = 0f,
+        y = 0f,
+        z = 0f
+    };
+
+    public GameObject start;
+    public GameObject stop;
+
     public void Start()
     {
         Score = 0;
+
+        Instantiate(start, startStopButtonSpawn, Quaternion.identity);
+        MeshCollider meshCollider = start.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+
+        start.layer = LayerMask.NameToLayer("Sliceable");
     }
     
     public void PauseGame()
     {
+        Destroy(stop);
         GameState = GameState.Pause;
+        Instantiate(start, startStopButtonSpawn, Quaternion.identity);
+        MeshCollider meshCollider = start.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+
+        start.layer = LayerMask.NameToLayer("Sliceable");
     }
 
     public void StartGame()
     {
+        Destroy(start);
         GameState = GameState.Running;
+        Instantiate(stop, startStopButtonSpawn, Quaternion.identity);
+        MeshCollider meshCollider = stop.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+
+        stop.layer = LayerMask.NameToLayer("Sliceable");
     }
 
     public void ResetGame()

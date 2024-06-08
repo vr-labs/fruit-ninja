@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,8 +18,8 @@ public class FlyingObjectSpawner : MonoBehaviour
     public float minAngle = -15f;
     public float maxAngle = 15f;
 
-    public float minForce = 0.025f;
-    public float maxForce = 0.1f;
+    public float minForce = 0.01f;
+    public float maxForce = 0.02f;
 
     public float maxLifetime = 1f;
     
@@ -53,7 +55,17 @@ public class FlyingObjectSpawner : MonoBehaviour
         while (enabled)
         {
             Vector3 spawnPosition = GetRandomSpawnPosition();
-            IFlyingObject randomObject = flyingObjectPrefabs[Random.Range(0, flyingObjectPrefabs.Length)];
+            IFlyingObject randomObject = null;
+            foreach (IFlyingObject prefab in flyingObjectPrefabs)
+            {
+                if (Random.Range(0f, 1f) <= prefab.AppearingChance)
+                {
+                    randomObject = prefab;
+                    break;
+                }
+            }
+
+            randomObject ??= flyingObjectPrefabs[0];
             
             Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(minAngle, maxAngle));
             GameObject fruit = Instantiate(randomObject.ObjectPrefab, spawnPosition, rotation);
@@ -64,7 +76,7 @@ public class FlyingObjectSpawner : MonoBehaviour
             fruit.layer = LayerMask.NameToLayer("Sliceable");
             fruit.transform.localScale = randomObject.GetSize();
             
-            Destroy(fruit, maxLifetime);    
+            Destroy(fruit, maxLifetime);
             
             float force = Random.Range(minForce, maxForce);
             fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * force, ForceMode.Impulse);
