@@ -55,7 +55,7 @@ public class SliceObjects : MonoBehaviour
                 flyingObject.OnHit();
             }
             
-            Destroy(target, 5f);
+            Destroy(target);
             Destroy(upperHull, 5f);
             Destroy(lowerHull, 5f);
         }
