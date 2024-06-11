@@ -14,12 +14,9 @@ public class FlyingObjectSpawner : MonoBehaviour
     
     [SerializeField]
     public Collider spawnArea;
-    
-    public float minAngle = -15f;
-    public float maxAngle = 15f;
 
-    public float minForce = 0.01f;
-    public float maxForce = 0.02f;
+    public float minForce = 0.012f;
+    public float maxForce = 0.015f;
 
     public float maxLifetime = 1f;
     
@@ -54,7 +51,6 @@ public class FlyingObjectSpawner : MonoBehaviour
         
         while (enabled)
         {
-            Vector3 spawnPosition = GetRandomSpawnPosition();
             IFlyingObject randomObject = null;
             foreach (IFlyingObject prefab in flyingObjectPrefabs)
             {
@@ -66,8 +62,31 @@ public class FlyingObjectSpawner : MonoBehaviour
             }
 
             randomObject ??= flyingObjectPrefabs[0];
-            
-            Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(minAngle, maxAngle));
+
+            Vector3 spawnPosition = GetRandomSpawnPosition();
+            float angle;
+            if (spawnPosition.x < 0f)
+            {
+                angle = 5f;
+            }
+            else if (spawnPosition.x < 0.43f)
+            {
+                angle = 2f;
+            }
+            else if (spawnPosition.x < 0.86f)
+            {
+                angle = 0f;
+            }
+            else if (spawnPosition.x > 1.3f)
+            {
+                angle = -2f;
+            }
+            else
+            {
+                angle = -5f;
+            }
+
+            Quaternion rotation = Quaternion.Euler(0f, 0f, angle);
             GameObject fruit = Instantiate(randomObject.ObjectPrefab, spawnPosition, rotation);
             
             MeshCollider meshCollider = fruit.AddComponent<MeshCollider>();
