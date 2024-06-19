@@ -53,6 +53,11 @@ public class GameManager: MonoBehaviour
     private void Update()
     {
         UpdateScore();
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }
 
