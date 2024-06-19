@@ -15,9 +15,9 @@ public abstract class ButtonBase : MonoBehaviour
     [SerializeField]
     public GameObject prefab;
 
-    public Vector3 GetSize = new(20f, 20f, 20f);
+    public Vector3 GetSize = new(0.5f, 0.5f, 0.5f);
 
-    public virtual void OnHit()
+    public void OnHit()
     {
         if (IsStop)
         {

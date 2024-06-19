@@ -19,13 +19,18 @@ public class StartStopSpawner : MonoBehaviour
     {
         SpawnStop();
     }
+    
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void SpawnStop()
     {
         Vector3 spawnPosition = new(spawnArea.bounds.min.x, spawnArea.bounds.min.y, spawnArea.bounds.min.z);
-        var objectPrefab = Instantiate(stopButton);
-        ButtonStop buttonStop = objectPrefab.AddComponent<ButtonStop>();
-        GameObject stop = Instantiate(buttonStop.ObjectPrefab, spawnPosition, Quaternion.identity);
+        GameObject stop = Instantiate(stopButton, spawnPosition, Quaternion.identity);
+        ButtonStop buttonStop = stop.AddComponent<ButtonStop>();
+        buttonStop.ObjectPrefab = stop;
 
         MeshCollider meshCollider = stop.AddComponent<MeshCollider>();
         meshCollider.convex = true;
@@ -36,10 +41,10 @@ public class StartStopSpawner : MonoBehaviour
 
     public void SpawnStart()
     {
-        Vector3 spawnPosition = new(spawnArea.bounds.min.x, spawnArea.bounds.min.y, spawnArea.bounds.min.z);
-        var objectPrefab = Instantiate(startButton);
-        ButtonStart buttonStart = objectPrefab.AddComponent<ButtonStart>();
-        GameObject start = Instantiate(buttonStart.prefab, spawnPosition, Quaternion.identity);
+        Vector3 spawnPosition = new(spawnArea.bounds.max.x, spawnArea.bounds.max.y, spawnArea.bounds.max.z);
+        GameObject start = Instantiate(startButton, spawnPosition, Quaternion.identity);
+        ButtonStart buttonStart = start.AddComponent<ButtonStart>();
+        buttonStart.ObjectPrefab = start;
 
         MeshCollider meshCollider = start.AddComponent<MeshCollider>();
         meshCollider.convex = true;

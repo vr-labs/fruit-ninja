@@ -55,6 +55,12 @@ public class SliceObjects : MonoBehaviour
                 flyingObject.OnHit();
             }
             
+            ButtonBase buttonBase = target.GetComponent<ButtonBase>();
+            if (buttonBase != null)
+            {
+                buttonBase.OnHit();
+            }
+            
             Destroy(target);
             Destroy(upperHull, 5f);
             Destroy(lowerHull, 5f);

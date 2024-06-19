@@ -47,21 +47,13 @@ public class FlyingObjectSpawner : MonoBehaviour
 
     IEnumerator SpawnFlyingObject()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(
+            2f
+        );
         
         while (GameManager.Instance.GameState == GameState.Running)
         {
-            IFlyingObject randomObject = null;
-            foreach (IFlyingObject prefab in flyingObjectPrefabs)
-            {
-                if (Random.Range(0f, 1f) <= prefab.AppearingChance)
-                {
-                    randomObject = prefab;
-                    break;
-                }
-            }
-
-            randomObject ??= flyingObjectPrefabs[0];
+            IFlyingObject randomObject = flyingObjectPrefabs[Random.Range(0, flyingObjectPrefabs.Length - 1)];
 
             Vector3 spawnPosition = GetRandomSpawnPosition();
             float angleZ;
@@ -113,7 +105,7 @@ public class FlyingObjectSpawner : MonoBehaviour
             
             Destroy(fruit, maxLifetime);
             
-            fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * 4f, ForceMode.Impulse);
+            fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * Random.Range(minForce, maxForce), ForceMode.Impulse);
             
             randomObject.Launch();
             
@@ -126,7 +118,7 @@ public class FlyingObjectSpawner : MonoBehaviour
         return new Vector3
         {
             x = Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
-            y = Random.Range(spawnArea.bounds.min.y, spawnArea.bounds.max.y),
+            y = spawnArea.bounds.max.y,
             z = Random.Range(spawnArea.bounds.min.z, spawnArea.bounds.max.z)
         };
     }
