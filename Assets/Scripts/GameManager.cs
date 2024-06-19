@@ -21,13 +21,11 @@ public class GameManager: MonoBehaviour
     public void PauseGame()
     {
         GameState = GameState.Pause;
-        StartStopSpawner.Instance.SpawnStart();
     }
 
     public void StartGame()
     {
         GameState = GameState.Running;
-        StartStopSpawner.Instance.SpawnStop();
     }
 
     public void ResetGame()
