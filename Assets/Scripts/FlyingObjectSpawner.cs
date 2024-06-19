@@ -15,8 +15,8 @@ public class FlyingObjectSpawner : MonoBehaviour
     [SerializeField]
     public Collider spawnArea;
 
-    public float minForce = 3f;
-    public float maxForce = 6f;
+    public float minForce = 4f;
+    public float maxForce = 5f;
 
     public float maxLifetime = 1f;
     
@@ -64,29 +64,45 @@ public class FlyingObjectSpawner : MonoBehaviour
             randomObject ??= flyingObjectPrefabs[0];
 
             Vector3 spawnPosition = GetRandomSpawnPosition();
-            float angle;
-            if (spawnPosition.x < 0f)
+            float angleZ;
+            if (spawnPosition.x < 0.16f)
             {
-                angle = -5f;
+                angleZ = -4f;
             }
-            else if (spawnPosition.x < 0.43f)
+            else if (spawnPosition.x < 0.32f)
             {
-                angle = -2f;
+                angleZ = -3f;
             }
-            else if (spawnPosition.x < 0.86f)
+            else if (spawnPosition.x < 0.48f)
             {
-                angle = 0f;
+                angleZ = -2f;
             }
-            else if (spawnPosition.x > 1.3f)
+            else if (spawnPosition.x < 0.64f)
             {
-                angle = 2f;
+                angleZ = -1f;
+            }
+            else if (spawnPosition.x < 0.8f)
+            {
+                angleZ = 0f;
+            }
+            else if (spawnPosition.x < 0.96f)
+            {
+                angleZ = 1f;
+            }
+            else if (spawnPosition.x < 1.12f)
+            {
+                angleZ = 2f;
+            }
+            else if (spawnPosition.x < 1.28f)
+            {
+                angleZ = 3f;
             }
             else
             {
-                angle = 5f;
+                angleZ = 4f;
             }
 
-            Quaternion rotation = Quaternion.Euler(-10f, 0f,  angle);
+            Quaternion rotation = Quaternion.Euler(-10f, 0f, angleZ);
             GameObject fruit = Instantiate(randomObject.ObjectPrefab, spawnPosition, rotation);
             
             MeshCollider meshCollider = fruit.AddComponent<MeshCollider>();
@@ -97,8 +113,7 @@ public class FlyingObjectSpawner : MonoBehaviour
             
             Destroy(fruit, maxLifetime);
             
-            float force = Random.Range(minForce, maxForce);
-            fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * force, ForceMode.Impulse);
+            fruit.AddComponent<Rigidbody>().AddForce(fruit.transform.up * 4f, ForceMode.Impulse);
             
             randomObject.Launch();
             

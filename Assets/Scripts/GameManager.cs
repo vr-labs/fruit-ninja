@@ -10,8 +10,8 @@ public class GameManager: MonoBehaviour
 
     public TextMeshProUGUI ScoreText;
     public int Score { get; private set; }
-    public float MinSpawnInterval = 0.25f;
-    public float MaxSpawnInterval = 1.25f;
+    public float MinSpawnInterval = 1f;
+    public float MaxSpawnInterval = 2f;
 
     public void Start()
     {
