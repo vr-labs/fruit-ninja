@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StartStopSpawner : MonoBehaviour
 {
+    public static StartStopSpawner Instance { get; private set; }
+
     [SerializeField]
     public Collider spawnArea;
 
@@ -35,8 +37,8 @@ public class StartStopSpawner : MonoBehaviour
     public void SpawnStart()
     {
         Vector3 spawnPosition = new(spawnArea.bounds.min.x, spawnArea.bounds.min.y, spawnArea.bounds.min.z);
-        var objectPrefab = Instantiate(stopButton);
-        ButtonStart buttonStart = gameObject.GetComponent<ButtonStart>();
+        var objectPrefab = Instantiate(startButton);
+        ButtonStart buttonStart = objectPrefab.AddComponent<ButtonStart>();
         GameObject start = Instantiate(buttonStart.prefab, spawnPosition, Quaternion.identity);
 
         MeshCollider meshCollider = start.AddComponent<MeshCollider>();
