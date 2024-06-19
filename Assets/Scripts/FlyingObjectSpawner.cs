@@ -49,7 +49,7 @@ public class FlyingObjectSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         
-        while (enabled)
+        while (GameManager.Instance.GameState == GameState.Running)
         {
             IFlyingObject randomObject = null;
             foreach (IFlyingObject prefab in flyingObjectPrefabs)
