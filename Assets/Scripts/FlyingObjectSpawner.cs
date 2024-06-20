@@ -19,9 +19,12 @@ public class FlyingObjectSpawner : MonoBehaviour
     public float maxForce = 5f;
 
     public float maxLifetime = 1f;
+
+    private bool spawnFruitsGoing = false;
     
     private void OnEnable()
     {
+        spawnFruitsGoing = true;
         StartCoroutine(SpawnFlyingObject());
     }
 
@@ -43,6 +46,15 @@ public class FlyingObjectSpawner : MonoBehaviour
                 return flyingObject;
             }))
             .ToArray();
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.GameState == GameState.Running && spawnFruitsGoing == false)
+        {
+            spawnFruitsGoing = true;
+            StartCoroutine(SpawnFlyingObject());
+        }
     }
 
     IEnumerator SpawnFlyingObject()
@@ -111,6 +123,8 @@ public class FlyingObjectSpawner : MonoBehaviour
             
             yield return new WaitForSeconds(Random.Range(GameManager.Instance.MinSpawnInterval, GameManager.Instance.MaxSpawnInterval));
         }
+
+        spawnFruitsGoing = false;
     }
 
     Vector3 GetRandomSpawnPosition()
